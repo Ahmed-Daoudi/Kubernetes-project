@@ -24,7 +24,7 @@ spec: # about the pods : replicas details etc ..
               mountPath: /app/data
           ports:
             - name: mysql-db-port
-            - containerPort: 3306
+              containerPort: 3306
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
@@ -38,10 +38,10 @@ spec: # about the pods : replicas details etc ..
       #     awsElasticBlockStore:
       #      volumeID : vol-2qxs545q4xq....
       #      fsType: ext4 # make sure you give it a tag.
-    volumes:
-      - name: my-volume
-        hostPath:
-            path: /path/to/host/folder   
+      volumes:
+        - name: my-volume
+          hostPath:
+              path: /path/to/host/folder   
   
 
 
