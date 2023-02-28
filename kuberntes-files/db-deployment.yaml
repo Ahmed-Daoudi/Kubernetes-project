@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vprodb
+  labels:
+    app : vprodb # this the label used for create the service file later 
+spec: # about the pods : replicas details etc ..
+  selector: # optionnal 
+    matchLabels:
+      app: vprodb
+  replicas: 1
+  template: #pod défention : metadata(name and label), spec.. etc ...
+    metadata:
+      labels:
+        app: vprodb
+    spec:
+      containers: #container information
+        - name: vprodb
+          image: ahmeddaoudi/docker-mysql-db:mysql-db
+          volumeMounts:
+            #- mountPath: /var/lib/mysql
+            #  name: db-data # the name already given to the volume created 
+            - name: my-volume #with minikube
+              mountPath: /app/data
+          ports:
+            - name: mysql-db-port
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                   name: app-secret
+                   key: db-pass #the passord will fetch in this variable and passed to MYSQL_ROOT_PASSWORD
+       # nodeSelector: # for kops nodes : information in witch node we will run our image         
+       #  zone: us-east-2a
+      # volumes:
+      #   - name : db-data
+      #     awsElasticBlockStore:
+      #      volumeID : vol-2qxs545q4xq....
+      #      fsType: ext4 # make sure you give it a tag.
+    volumes:
+      - name: my-volume
+        hostPath:
+            path: /path/to/host/folder   
+  
+
+
