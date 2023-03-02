@@ -10,3 +10,4 @@ spec:
   selector:
     app : tomcat-for-java-app  # should give it a label : same name label in the deployment file
   type: LoadBalancer #elastic load balancer
+  ############## ok !!!! ############ 
