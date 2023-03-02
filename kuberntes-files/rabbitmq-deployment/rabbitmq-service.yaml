@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name : vpromq01 # make sure the same name service in app.props
+spec:
+  ports:
+     - port: 15672 # accepte the request in this port
+       targetPort : rabbitmq-port #same name for deployment file
+       protocol: TCP
+  selector:
+    app : vpromq # should give it a label : same name label in the deployment file
+  type: ClusterIP  

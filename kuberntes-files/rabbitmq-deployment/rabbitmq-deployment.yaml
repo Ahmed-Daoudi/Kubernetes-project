@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vpromq
+  labels:
+    app : vpromq # this the label used for create the service file later 
+spec: # about the pods : replicas details etc ..
+  selector: # optionnal 
+    matchLabels:
+      app: vpromq
+  replicas: 1
+  template: #pod défenition : metadata(name and label), spec.. etc ...
+    metadata:
+      labels:
+        app: vpromq #label for our pod
+    spec:
+      containers: #container information
+        - name: vpromq
+          image: rabbitmq
+          ports:
+            - name: rabbitmq-port
+              containerPort: 15672
+          env:
+            - name: RABBITMQ_DEFAULT_PASS # in app.props we need a password and username
+              valueFrom:
+                secretKeyRef:
+                   name: app-secret
+                   key: rmq-pass #the passord will fetch in this variable and passed to RABBITMQ_DEFAULT_PASS
+            - name: RABBITMQ_DEFAULT_USER
+              value: "guest"

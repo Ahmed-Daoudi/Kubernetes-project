@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name : vprodb # make sure the same name service in app.props
+spec:
+  ports:
+     - port: 3306 # accepte the request in this port
+       targetPort : mysql-db-port #same name for deployment file
+       protocol: TCP
+  selector:
+    app : vprodb # should give it a label : same name label in the deployment file
+  type: ClusterIP 
+  

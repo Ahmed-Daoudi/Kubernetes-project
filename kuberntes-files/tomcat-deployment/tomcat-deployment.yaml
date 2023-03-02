@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tomcat-for-java-app
+  labels:
+    app : tomcat-for-java-app
+spec:
+  selector:
+    matchLabels:
+      app: tomcat-for-java-app
+  replicas: 1
+  template: #pod defenition
+    metadata:
+      labels:
+        app: tomcat-for-java-app
+    spec:
+      containers:
+         - name : tomcat-for-java-app
+           image: ahmeddaoudi/docker-java-project:java-project 
+           ports:
+             - name : tomcat-port
+               containerPort: 8080
+      initContainers: # we want the data base container run first :  so we can attached to it
+         - name : init-mysb
+           image: busybox
+           command: ['sh', '-c', 'until nslookup vprodb; do wait for mydb; sleep2; done;'] #so this tomcat container will wait till the db container start , execute nslookup evry 2 seconds to check it.
+         - name : init-memcached
+           image: busybox
+           command: ['sh', '-c', 'until nslookup vprocache01; do wait for mydb; sleep2; done;'] #sma thing for memcached
+          

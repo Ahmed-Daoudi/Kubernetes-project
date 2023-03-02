@@ -9,10 +9,10 @@ spec: # about the pods : replicas details etc ..
     matchLabels:
       app: vprodb
   replicas: 1
-  template: #pod défention : metadata(name and label), spec.. etc ...
+  template: #pod défenition : metadata(name and label), spec.. etc ...
     metadata:
       labels:
-        app: vprodb
+        app: vprodb #label for our pod
     spec:
       containers: #container information
         - name: vprodb
@@ -23,7 +23,7 @@ spec: # about the pods : replicas details etc ..
             - name: my-volume #with minikube
               mountPath: /app/data
           ports:
-            - name: mysql-db-port
+            - name: mysql-db-port # we will use same port label in service file
               containerPort: 3306
           env:
             - name: MYSQL_ROOT_PASSWORD
@@ -41,7 +41,4 @@ spec: # about the pods : replicas details etc ..
       volumes:
         - name: my-volume
           hostPath:
-              path: /path/to/host/folder   
-  
-
-
+              path: /path/to/host/folder
